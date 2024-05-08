@@ -15,7 +15,6 @@ public:
     void registerWidget(Widget* w);
     virtual void action(std::string)=0;
 
-
 protected:
     std::vector<Widget*> widgetVector;
     Widget * selected;

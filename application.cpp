@@ -32,16 +32,14 @@ void Application::eventLoop(){
                 }
             }
         }
-        else if(ev.type==ev_key&&ev.keycode==key_enter){
-            action("enter");
-        }
+
         if(selected){
             selected->handleEvent(ev);
         }
         if(ev.type==ev_key && ev.keycode==key_escape){
             return;
         }
-
+        action("check");
         clearGout();
         for(Widget* w:widgetVector){
             w->drawWidget();
