@@ -1,3 +1,10 @@
+GraphicsKitQt.pro  
+graphics/
+LiberationSans-Regular.ttf
+SDL2/
+graphics.hpp
+
+
 # C++ objects and libs
 *.slo
 *.lo
