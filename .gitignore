@@ -3,6 +3,7 @@ graphics/
 LiberationSans-Regular.ttf
 SDL2/
 graphics.hpp
+build/
 
 
 # C++ objects and libs
