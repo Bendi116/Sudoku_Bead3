@@ -1,7 +1,9 @@
 #include "sudokuapp.hpp"
 #include "sudokucell.hpp"
 #include "iostream"
-#include "widget.hpp"
+#include "btnbox.hpp"
+#include "menu.hpp"
+
 
 
 using namespace std;
@@ -21,7 +23,7 @@ sudokuApp::sudokuApp(int a,int b):Application(a,b) {
     cellSize=50;
     windowWidth=800;
     windowHeight=600;
-    gridStartX = (windowWidth - 9 *cellSize)/2;
+    gridStartX = ((windowWidth - 9 *cellSize)/2)+100;
     gridStartY= (windowHeight - 9 *cellSize)/2;
     gridBoxBorders={{0,0,2,2},{0,3,2,5},{0,6,2,8},{3,0,5,2},{3,3,5,5},{3,6,5,8},{6,0,8,2},{6,3,8,5},{6,6,8,8}};
 }
@@ -45,23 +47,24 @@ void sudokuApp::printGrid(){
 
 void sudokuApp::run(){
     gout.open(800,600);
-    createGrid(gridMap);
+    //createGrid(gridMap);
+    gamestate=MENU;
+    updateWidgetsVector();
     eventLoop();
 }
 
 void sudokuApp::createGrid(std::vector<std::vector<std::string>> blueprint){
     for (size_t row = 0; row < blueprint.size(); ++row) {
-        sudokuCell*cell2;
+        sudokuCell*cell;
         vector<sudokuCell*> temp;
         for (size_t col = 0; col < blueprint[row].size(); ++col) {
-            Widget* cell;
             if(blueprint[row][col]!=""){
-                cell = cell2 =new sudokuCell(this,gridStartX+col*cellSize,gridStartY+row*cellSize,cellSize,blueprint[row][col]);
+                cell =new sudokuCell(this,gridStartX+col*cellSize,gridStartY+row*cellSize,cellSize,blueprint[row][col]);
             }else{
-                cell = cell2 =new sudokuCell(this,gridStartX+cellSize*col,gridStartY+cellSize*row,cellSize);
+                cell =new sudokuCell(this,gridStartX+cellSize*col,gridStartY+cellSize*row,cellSize);
             }
-            widgetVector.push_back(cell);
-            temp.push_back(cell2);
+
+            temp.push_back(cell);
         }
         cellVector.push_back(temp);
     }
@@ -69,7 +72,7 @@ void sudokuApp::createGrid(std::vector<std::vector<std::string>> blueprint){
 
 
 void sudokuApp::action(string cmd){
-    if(cmd=="check"){
+    if(cmd=="check"&&gamestate==GAME){
         checkGrid();
     }
 
@@ -118,5 +121,26 @@ void sudokuApp::checkBox(int row, int col){
         }
     }
 }
+
+
+void sudokuApp::updateWidgetsVector(){
+    widgetVector={};
+    cellVector={};
+    if(gamestate==MENU){
+        plaxBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;updateWidgetsVector();});
+        playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){});
+        exitBtn = new btnBox(this,200,415,300,50,"Exit Game",[this](){appRun=false;});
+        levelMenu = new Menu(this,525,225,200,50,{"Easy","Medium","Hard"},3);
+    }else if(gamestate==GAME){
+        createGrid(gridMap);
+        returnToMenu = new btnBox(this,25,400,150,50,"Return to menu",[this](){gamestate=MENU;updateWidgetsVector();});
+        exitBtn = new btnBox(this,25,475,150,50,"Exit Game",[this](){appRun=false;});
+    }
+};
+
+void sudokuApp::loadGameLevel(){
+
+};
+
 
 

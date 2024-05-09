@@ -1,10 +1,10 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 #include "graphics.hpp"
-
 #include"vector"
-class Widget;
 
+enum gameState{NONE,MENU,GAME};
+class Widget;
 
 class Application
 {
@@ -20,6 +20,12 @@ protected:
     Widget * selected;
     Widget * caught;
     int windowWidth,windowHeight;
+    enum gameState gamestate;
+    bool appRun;
+
+
+
+
 };
 
 

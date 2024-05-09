@@ -12,6 +12,15 @@ protected:
     int cellSize,gridStartX,gridStartY,windowWidth,windowHeight;
     std::vector<std::vector<sudokuCell*>> cellVector;
     std::vector<std::vector<int>> gridBoxBorders;
+
+    //widgets
+    Widget * plaxBtn;
+    Widget * playRandBtn;
+    Widget * exitBtn;
+    Widget * levelMenu;
+    Widget * returnToMenu;
+
+
 public:
     sudokuApp(int a, int b);
     void action(std::string) override;
@@ -22,6 +31,8 @@ public:
     void checkCol(int row, int col);
     void checkBox(int row, int col);
     void printGrid();
+    void updateWidgetsVector();
+    void loadGameLevel();
 };
 
 #endif // SUDOKUAPP_HPP

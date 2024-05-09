@@ -7,12 +7,14 @@ using namespace genv;
 Application::Application(int a, int b):windowWidth(a),windowHeight(b){
    selected=0;
    caught=0;
+   gamestate = NONE;
+   appRun=true;
 }
 
 void Application::eventLoop(){
     gout.open(windowWidth,windowHeight);
     event ev;
-    while(gin >> ev ) {
+    while(gin >> ev && appRun ) {
         if(ev.type ==ev_mouse){
             if ( ev.button==btn_left){
                 for (size_t i = 0; i < widgetVector.size(); ++i) {
@@ -46,6 +48,7 @@ void Application::eventLoop(){
         }
         gout<<refresh;
     }
+
 
 
 }
