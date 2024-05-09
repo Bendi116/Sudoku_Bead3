@@ -4,7 +4,7 @@ LiberationSans-Regular.ttf
 SDL2/
 graphics.hpp
 build/
-!build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug/levelData.txt
+!build\Desktop_Qt_6_5_3_MinGW_64_bit-Debug\levelData.txt
 
 
 # C++ objects and libs
