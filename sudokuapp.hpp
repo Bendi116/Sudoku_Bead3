@@ -33,6 +33,8 @@ public:
     void printGrid();
     void updateWidgetsVector();
     void loadGameLevel();
+    void readFile(std::ifstream& file);
+    void fromFileMakeGridMap(std::ifstream& file);
 };
 
 #endif // SUDOKUAPP_HPP

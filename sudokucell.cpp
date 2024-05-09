@@ -10,7 +10,7 @@ sudokuCell::sudokuCell (Application* _parent,int x, int y, int l):Widget(_parent
     hasSelected=false;
     unchangeable=false;
     currentNum="";
-    margin = 2;
+    margin = 1;
     wrong = false;
 
 }
@@ -18,16 +18,16 @@ sudokuCell::sudokuCell (Application* _parent,int x, int y, int l):Widget(_parent
 sudokuCell::sudokuCell (Application* _parent,int x, int y, int l,string cN):Widget(_parent,x,y,l,l),currentNum(cN){
     hasSelected=false;
     unchangeable=true;
-    margin = 2;
+    margin = 1;
     wrong = false;
 }
 
 
 void sudokuCell::drawWidget()const{
     gout.load_font("LiberationSans-Regular.ttf",20);
-    gout  <<color(0,0,250)<< move_to(xCoord, yCoord)  << box(length, length);
+    gout  <<color(10,10,10)<< move_to(xCoord, yCoord)  << box(length, length);
     if(unchangeable){
-        gout  <<color(110,110,110)<< move_to(xCoord+margin, yCoord+margin)  << box(length-margin*2, length-margin*2);
+        gout  <<color(160,225,160)<< move_to(xCoord+margin, yCoord+margin)  << box(length-margin*2, length-margin*2);
         gout << color(0,0,0)<<move_to(xCoord+0.4*length, yCoord+length*0.6)<<text(currentNum);
     }
     else if(wrong && hasSelected){

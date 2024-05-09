@@ -1,6 +1,7 @@
 #include "sudokuapp.hpp"
 #include "sudokucell.hpp"
 #include "iostream"
+#include"fstream"
 #include "btnbox.hpp"
 #include "menu.hpp"
 
@@ -127,7 +128,7 @@ void sudokuApp::updateWidgetsVector(){
     widgetVector={};
     cellVector={};
     if(gamestate==MENU){
-        plaxBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;updateWidgetsVector();});
+        plaxBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;loadGameLevel();updateWidgetsVector();});
         playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){});
         exitBtn = new btnBox(this,200,415,300,50,"Exit Game",[this](){appRun=false;});
         levelMenu = new Menu(this,525,225,200,50,{"Easy","Medium","Hard"},3);
@@ -139,8 +140,46 @@ void sudokuApp::updateWidgetsVector(){
 };
 
 void sudokuApp::loadGameLevel(){
-
+    gridMap={};
+    ifstream file("levelData.txt");
+    readFile(file);
+    file.close();
 };
 
 
+void sudokuApp::readFile(ifstream &file){
+    if(!file.good()){
+        cout<<"file was wrong";
+    }
+    string line;
+    while(file.good()){
+        getline(file,line);
+        if(levelMenu->getCurrentData()==line){
+            fromFileMakeGridMap(file);
+            break;
+        }
+    }
+}
+void sudokuApp::fromFileMakeGridMap(ifstream &file){
+    string line;
+    for (int row = 0; row < 9; ++row) {
+        getline(file,line);
+        vector<string> temp;
+        for (int col = 0; col < line.size(); ++col) {
+            if(line[col]=='_'){
+                temp.push_back("");
+            }else if(line[col]!=','){
+                string s="";
+                s.push_back(line[col]);
+                temp.push_back(s);
+            }
+        }
+
+        gridMap.push_back(temp);
+
+
+
+    }
+
+}
 

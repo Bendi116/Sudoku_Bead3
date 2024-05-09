@@ -55,7 +55,7 @@ void Application::eventLoop(){
 
 
 void Application::clearGout(){
-    gout<<color(0,0,0)<<move_to(0,0)<<box(windowWidth,windowHeight);
+    gout<<color(100,100,100)<<move_to(0,0)<<box(windowWidth,windowHeight);
 }
 
 
