@@ -4,9 +4,7 @@
 int main()
 {
     sudokuApp app(800,600);
-    mapGenerator mG;
-    //app.run();
-    mG.generateMap();
+    app.run();
 
     return 0;
 }

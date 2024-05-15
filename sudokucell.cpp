@@ -53,7 +53,6 @@ void sudokuCell::handleEvent(genv::event ev){
             currentNum="";
             }
         else if (ev.keyutf8 != "" && (
-                     ev.keyutf8=="0"||
                      ev.keyutf8=="1"||
                      ev.keyutf8=="2"||
                      ev.keyutf8=="3"||

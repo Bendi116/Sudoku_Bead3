@@ -9,6 +9,7 @@ Application::Application(int a, int b):windowWidth(a),windowHeight(b){
    caught=0;
    gamestate = NONE;
    appRun=true;
+
 }
 
 void Application::eventLoop(){

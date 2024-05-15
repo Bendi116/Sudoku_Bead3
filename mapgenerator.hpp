@@ -8,12 +8,20 @@ class mapGenerator
 private:
     std::vector<std::string> firstRow;
     std::vector<std::vector<std::string>> generatedMap ;
-public:
-    mapGenerator();
-    void generateMap();
+    std::vector<std::vector<std::string>> tempMap ;
+    int checkRow,checkCol,recurCounter,beforeRow,beforeCol;
+    std::vector<std::vector<int>> gridBoxBorders;
     void shuffleVector();
-    void creatMapWithShift();
-    std::vector<std::string> shift(int n);
+    void createMap();
+    bool fillMap();
+    void createPuzzle();
+    bool bactrackingSolver(int, int,std::string);
+    void copyVector();
+    bool findBlankSquare(std::vector<std::vector<std::string>> map);
+    bool check(std::vector<std::vector<std::string>>,std::string);
+public:
+    mapGenerator(std::vector<std::vector<int>>);
+    void generateMap();
 };
 
 #endif // MAPGENERATOR_HPP

@@ -4,6 +4,7 @@
 #include"application.hpp"
 #include "vector"
 #include "sudokucell.hpp"
+#include "mapgenerator.hpp"
 
 class sudokuApp:public Application
 {
@@ -19,6 +20,8 @@ protected:
     Widget * exitBtn;
     Widget * levelMenu;
     Widget * returnToMenu;
+
+    mapGenerator mapGen;
 
 
 public:
