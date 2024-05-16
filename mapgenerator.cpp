@@ -4,10 +4,9 @@
 #include "iostream"
 using namespace std;
 
-mapGenerator::mapGenerator(std::vector<std::vector<int>> gBB):recurCounter(0),
-    gridBoxBorders(gBB),
-    checkCol(-1),checkRow(-1),
-    beforeCol(-1),beforeRow(-1)
+mapGenerator::mapGenerator(std::vector<std::vector<int>> gBB):
+    checkRow(-1), checkCol(-1),
+    beforeRow(-1),beforeCol(-1),gridBoxBorders(gBB)
 {
     generatedMap={
                 {"","","","","","","","",""},
@@ -49,17 +48,19 @@ void printGrid(std::vector<std::vector<std::string>>& generatedMap){
     }
 }
 
-void mapGenerator::generateMap(){
+std::vector<std::vector<std::string>> mapGenerator::generateMap(){
 
+    initGeneratedMap();
     shuffleVector();
-    //creatMapWithShift();
     createMap();
     printGrid(generatedMap);
     createPuzzle();
     printGrid(generatedMap);
+    return generatedMap;
 
 }
 void mapGenerator::shuffleVector(){
+    firstRow = {};
     for (int i = 1; i < 10; ++i) {
         firstRow.push_back(to_string(i));
     }
@@ -75,34 +76,47 @@ void mapGenerator::shuffleVector(){
     }
 }
 
+void mapGenerator::initGeneratedMap(){
+    generatedMap={
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""},
+        {"","","","","","","","",""}
+    };
+}
+
 void mapGenerator::createMap(){
     generatedMap[0]=firstRow;
     fillMap();
 }
 
 bool mapGenerator::fillMap(){
+    int row = -1;
+    int col = -1;
     if(!findBlankSquare(generatedMap)){
         return true;
     }
+    row = checkRow;
+    col = checkCol;
     for (int num = 1; num < 10; ++num) {
-        if(check(generatedMap, to_string(num)))
+        if(check(generatedMap, to_string(num),row,col))
         {
-            generatedMap[checkRow][checkCol] = to_string(num);
+            generatedMap[row][col] = to_string(num);
             if(fillMap()){
                 return true;
             }
-            if(checkRow==0){
-                checkRow-=1;
-                checkCol=8;
-            }else{
-                checkCol-=1;
-            }
-            generatedMap[checkRow][checkCol] = "";
+
+            generatedMap[row][col] = "";
+
         }
     }
     return false;
 }
-
 void mapGenerator::createPuzzle(){
     int delNumCount = 50;
     string temp="";
@@ -110,9 +124,7 @@ void mapGenerator::createPuzzle(){
     int row = 0;
     int col = 0;
 
-    //generatedMap[rand() % 9][rand() % 9]="";
-
-    while(delNumCount!=0&& max < 1000000){
+    while(delNumCount!=0&& max < 10000000){
         row  = rand() % 9;
         col  = rand() % 9;
         if(generatedMap[row][col]==""){
@@ -125,25 +137,14 @@ void mapGenerator::createPuzzle(){
         generatedMap[row][col]="";
 
         copyVector();
-        //tempMap(generatedMap.begin(), generatedMap.end(), back_inserter(tempMap));
-        //tempMap=generatedMap;
-
-
 
         if(!bactrackingSolver(row,col,temp)){
             generatedMap[row][col]=temp;
             delNumCount++;
         }
-        /*else if(tempMap[x][y]!=temp){
-            generatedMap[x][y]=temp;
-            tempMap[x][y]=temp;
-            randNum++;
-        }*/
+
         delNumCount--;
         max++;
-        //cout<<randNum<<endl;
-        //tempMap=generatedMap;
-
     }
 
 }
@@ -154,45 +155,29 @@ void mapGenerator::copyVector(){
         }
     }
 }
-
-bool mapGenerator::bactrackingSolver(int row, int col, string checkNum){
-
-    recurCounter++;
+bool mapGenerator::bactrackingSolver(int _row, int _col, string checkNum){
+    int row = -1;
+    int col = -1;
     if(!findBlankSquare(tempMap)){
         return true;
     }
+    row = checkRow;
+    col = checkCol;
     for (int num = 1; num < 10; ++num) {
-        if(check(tempMap, to_string(num)))
+        if(check(tempMap, to_string(num),row,col))
         {
-            /*
-            if(checkRow == row && checkCol == col && to_string(num) != checkNum){
+
+            if(row == _row && col == _col && to_string(num) != checkNum){
                 return false;
             }
-            */
-            //cout<<"Deleted:"<<row<<"_"<<col<<"__"<<checkRow<<"__"<<checkCol<<endl;
-            if(checkRow == row && checkCol == col && to_string(num) != checkNum){
-                //cout<<"cont"<<endl;
-                continue;
-            }
 
-            tempMap[checkRow][checkCol] = to_string(num);
 
-            if(bactrackingSolver(row,col,checkNum)){
+            tempMap[row][col] = to_string(num);
+
+            if(bactrackingSolver(_row,_col,checkNum)){
                 return true;
             }
-            /*
-            if(checkCol>0 && checkRow>0){
-                if(checkRow==0){
-                    checkRow-=1;
-                    checkCol=8;
-                }else{
-                    checkCol-=1;
-                }
-
-            }
-            */
-            //2 esett
-            tempMap[checkRow][checkCol] = "";
+            tempMap[row][col] = "";
 
 
 
@@ -201,7 +186,30 @@ bool mapGenerator::bactrackingSolver(int row, int col, string checkNum){
     }
     return false;
 }
+/*
+ * bool mapGenerator::fillMap(){
+    int row = -1;
+    int col = -1;
+    if(!findBlankSquare(generatedMap)){
+        return true;
+    }
+    row = checkRow;
+    col = checkCol;
+    for (int num = 1; num < 10; ++num) {
+        if(check(generatedMap, to_string(num),row,col))
+        {
+            generatedMap[row][col] = to_string(num);
+            if(fillMap()){
+                return true;
+            }
 
+            generatedMap[row][col] = "";
+
+        }
+    }
+    return false;
+}
+*/
 bool mapGenerator::findBlankSquare(std::vector<std::vector<std::string>> map){
     checkRow=-1;
     checkCol=-1;
@@ -217,23 +225,23 @@ bool mapGenerator::findBlankSquare(std::vector<std::vector<std::string>> map){
     return false;
 }
 
-bool mapGenerator::check(std::vector<std::vector<std::string>> map,string checkNum){
+bool mapGenerator::check(std::vector<std::vector<std::string>> map,string checkNum,int row,int col){
     for (int i = 0; i < 9; ++i) {
-        if(map[i][checkCol]==checkNum && i!=checkRow){
+        if(map[i][col]==checkNum && i!=row){
             return false;
         }
     }
     for (int i = 0; i < 9; ++i) {
-        if(map[checkRow][i]==checkNum && i!=checkCol){
+        if(map[row][i]==checkNum && i!=col){
             return false;
         }
     }
     for (vector<int> border: gridBoxBorders) {
-        if(checkRow>=border[0]&&checkRow<=border[2]
-            &&checkCol>=border[1]&&checkCol<=border[3]){
+        if(row>=border[0]&&row<=border[2]
+            &&col>=border[1]&&col<=border[3]){
             for (int i  = border[0]; i  <=border[2] ; ++i ) {
                 for (int j = border[1]; j <= border[3]; ++j) {
-                    if(map[i][j]==checkNum && i != checkRow && j != checkCol){
+                    if(map[i][j]==checkNum && i != row && j != col){
                         return false;
                     }
                 }
@@ -242,19 +250,3 @@ bool mapGenerator::check(std::vector<std::vector<std::string>> map,string checkN
     }
     return true;
 }
-
-/*void sudokuApp::checkBox(int row, int col){
-    for (vector<int> border : gridBoxBorders) {
-        if(row>=border[0]&&row<=border[2]&&col>=border[1]&&col<=border[3]){
-            for (int i = border[0]; i <= border[2]; ++i) {
-                for (int j = border[1]; j <= border[3]; ++j) {
-                    if(cellVector[row][col]->getCurrentData() == cellVector[i][j]->getCurrentData() && (row != i || col != j)){
-                        cellVector[row][col]->setWrongTrue();
-                    }
-                }
-            }
-        }
-    }
-}*/
-
-

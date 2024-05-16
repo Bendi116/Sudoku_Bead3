@@ -18,10 +18,12 @@ private:
     bool bactrackingSolver(int, int,std::string);
     void copyVector();
     bool findBlankSquare(std::vector<std::vector<std::string>> map);
-    bool check(std::vector<std::vector<std::string>>,std::string);
+    bool check(std::vector<std::vector<std::string>>,std::string,int,int);
+    void initGeneratedMap();
+
 public:
     mapGenerator(std::vector<std::vector<int>>);
-    void generateMap();
+    std::vector<std::vector<std::string>> generateMap();
 };
 
 #endif // MAPGENERATOR_HPP

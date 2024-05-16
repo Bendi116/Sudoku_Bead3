@@ -15,7 +15,7 @@ protected:
     std::vector<std::vector<int>> gridBoxBorders;
 
     //widgets
-    Widget * plaxBtn;
+    Widget * playBtn;
     Widget * playRandBtn;
     Widget * exitBtn;
     Widget * levelMenu;
@@ -38,6 +38,8 @@ public:
     void loadGameLevel();
     void readFile(std::ifstream& file);
     void fromFileMakeGridMap(std::ifstream& file);
+    void loadRandGameLevel();
+    void delWidget();
 };
 
 #endif // SUDOKUAPP_HPP

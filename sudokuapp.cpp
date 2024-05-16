@@ -50,15 +50,10 @@ void sudokuApp::printGrid(){
 }
 
 void sudokuApp::run(){
-    mapGen.generateMap();
-
-    /*
-    gout.open(800,600);
-
     gamestate=MENU;
     updateWidgetsVector();
     eventLoop();
-    */
+
 }
 
 void sudokuApp::createGrid(std::vector<std::vector<std::string>> blueprint){
@@ -134,9 +129,10 @@ void sudokuApp::checkBox(int row, int col){
 void sudokuApp::updateWidgetsVector(){
     widgetVector={};
     cellVector={};
+    delWidget();
     if(gamestate==MENU){
-        plaxBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;loadGameLevel();updateWidgetsVector();});
-        playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){});
+        playBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;loadGameLevel();updateWidgetsVector();});
+        playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){gamestate=GAME; loadRandGameLevel();updateWidgetsVector();});
         exitBtn = new btnBox(this,200,415,300,50,"Exit Game",[this](){appRun=false;});
         levelMenu = new Menu(this,525,225,200,50,{"Easy","Medium","Hard"},3);
     }else if(gamestate==GAME){
@@ -145,6 +141,15 @@ void sudokuApp::updateWidgetsVector(){
         exitBtn = new btnBox(this,25,475,150,50,"Exit Game",[this](){appRun=false;});
     }
 };
+
+void sudokuApp::delWidget(){
+    delete playRandBtn;
+}
+
+void sudokuApp::loadRandGameLevel(){
+
+    gridMap = mapGen.generateMap();
+}
 
 void sudokuApp::loadGameLevel(){
     gridMap={};
@@ -181,7 +186,6 @@ void sudokuApp::fromFileMakeGridMap(ifstream &file){
                 temp.push_back(s);
             }
         }
-
         gridMap.push_back(temp);
 
 
