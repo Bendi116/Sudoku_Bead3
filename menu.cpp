@@ -4,8 +4,6 @@
 using namespace genv;
 using namespace std;
 
-
-
 Menu::Menu(Application* p,int x, int y, int l, int h, std::vector<std::string> el, int oS):Widget(p,x,y,l,h),elementList(el),openedSize(oS) {
     if(elementList.size()!=0){
     dy = 0.0;
@@ -38,7 +36,6 @@ void Menu::drawBasicMenuCanvas(canvas& canvasOut)const{
     }
 }
 void Menu::drawWidget()const{
-    //gout<<color(0,0,0)<<move_to(0,0)<<box(800,600);
     canvas elementCanvas(length,height*elementList.size());
     elementCanvas.load_font("LiberationSans-Regular.ttf",charSize);
     gout.load_font("LiberationSans-Regular.ttf",charSize);
@@ -168,7 +165,7 @@ void Menu::updateMenu(vector<string> list){
         barButtonSize = 0;
         elementList={};
     }else{
-        //ha nincs benne eslő elem
+        //ha nincs benne első elem
         bool currentElemenetInVector = false;
         for (string s : list) {
             if(currentElement == s){

@@ -1,6 +1,5 @@
 #include "sudokucell.hpp"
 #include "graphics.hpp"
-#include"iostream"
 
 using namespace genv;
 using namespace  std ;
@@ -27,8 +26,8 @@ void sudokuCell::drawWidget()const{
     gout.load_font("LiberationSans-Regular.ttf",20);
     gout  <<color(10,10,10)<< move_to(xCoord, yCoord)  << box(length, length);
     if(unchangeable){
-        gout  <<color(160,225,160)<< move_to(xCoord+margin, yCoord+margin)  << box(length-margin*2, length-margin*2);
-        gout << color(0,0,0)<<move_to(xCoord+0.4*length, yCoord+length*0.6)<<text(currentNum);
+        gout  <<color(200,200,200)<< move_to(xCoord+margin, yCoord+margin)  << box(length-margin*2, length-margin*2);
+        gout << color(130,100,255)<<move_to(xCoord+0.4*length, yCoord+length*0.6)<<text(currentNum);
     }
     else if(wrong && hasSelected){
         gout  <<color(255,110,110)<< move_to(xCoord+margin, yCoord+margin)  << box(length-margin*2, length-margin*2);

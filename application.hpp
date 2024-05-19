@@ -1,7 +1,7 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
-#include "graphics.hpp"
 #include"vector"
+#include"string"
 
 enum gameState{NONE,MENU,GAME};
 class Widget;

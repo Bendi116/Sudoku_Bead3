@@ -1,10 +1,9 @@
 #include "btnbox.hpp"
 #include "graphics.hpp"
-#include"iostream"
 
 using namespace genv;
-
 using namespace std;
+
 btnBox::btnBox(Application* p,int x, int y, int l, int h, std::string s, std::function<void()> oF):Widget(p,x,y,l,h), btnText(s), ownFunction(oF) {
 
 }

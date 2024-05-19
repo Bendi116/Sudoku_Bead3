@@ -2,8 +2,6 @@
 #define SUDOKUCELL_HPP
 #include "widget.hpp"
 
-//Sudoku beadhoz készült
-
 class sudokuCell:public Widget
 {
 

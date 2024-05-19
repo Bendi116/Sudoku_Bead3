@@ -1,7 +1,6 @@
 #include "mapgenerator.hpp"
-#include <algorithm>
-#include <random>
 #include "iostream"
+
 using namespace std;
 
 mapGenerator::mapGenerator(std::vector<std::vector<int>> gBB):
@@ -34,6 +33,7 @@ mapGenerator::mapGenerator(std::vector<std::vector<int>> gBB):
 }
 
 void printGrid(std::vector<std::vector<std::string>>& generatedMap){
+    //debughoz kellet
     string s = "";
     for (size_t row = 0; row < generatedMap.size(); ++row) {
         s="";
@@ -53,9 +53,7 @@ std::vector<std::vector<std::string>> mapGenerator::generateMap(){
     initGeneratedMap();
     shuffleVector();
     createMap();
-    printGrid(generatedMap);
     createPuzzle();
-    printGrid(generatedMap);
     return generatedMap;
 
 }
@@ -68,7 +66,7 @@ void mapGenerator::shuffleVector(){
     srand(time(0));
     int randInd = 0;
     string temp = "";
-    for (int i = 0; i < firstRow.size(); ++i) {
+    for (size_t i = 0; i < firstRow.size(); ++i) {
         randInd = rand() % 9;
         temp = firstRow[i];
         firstRow[i]=firstRow[randInd];
@@ -149,8 +147,8 @@ void mapGenerator::createPuzzle(){
 
 }
 void mapGenerator::copyVector(){
-    for (int row = 0; row < generatedMap.size(); ++row) {
-        for (int col = 0; col < generatedMap[row].size(); ++col) {
+    for (size_t row = 0; row < generatedMap.size(); ++row) {
+        for (size_t col = 0; col < generatedMap[row].size(); ++col) {
             tempMap[row][col]=generatedMap[row][col];
         }
     }
@@ -186,30 +184,7 @@ bool mapGenerator::bactrackingSolver(int _row, int _col, string checkNum){
     }
     return false;
 }
-/*
- * bool mapGenerator::fillMap(){
-    int row = -1;
-    int col = -1;
-    if(!findBlankSquare(generatedMap)){
-        return true;
-    }
-    row = checkRow;
-    col = checkCol;
-    for (int num = 1; num < 10; ++num) {
-        if(check(generatedMap, to_string(num),row,col))
-        {
-            generatedMap[row][col] = to_string(num);
-            if(fillMap()){
-                return true;
-            }
 
-            generatedMap[row][col] = "";
-
-        }
-    }
-    return false;
-}
-*/
 bool mapGenerator::findBlankSquare(std::vector<std::vector<std::string>> map){
     checkRow=-1;
     checkCol=-1;

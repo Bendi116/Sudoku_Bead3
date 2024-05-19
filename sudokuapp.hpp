@@ -39,7 +39,6 @@ public:
     void readFile(std::ifstream& file);
     void fromFileMakeGridMap(std::ifstream& file);
     void loadRandGameLevel();
-    void delWidget();
 };
 
 #endif // SUDOKUAPP_HPP

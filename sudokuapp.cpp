@@ -34,6 +34,7 @@ sudokuApp::sudokuApp(int a,int b):Application(a,b)
 
 
 void sudokuApp::printGrid(){
+    //Debughoz kellet
     string s = "";
     for (size_t row = 0; row < cellVector.size(); ++row) {
         s="";
@@ -129,10 +130,12 @@ void sudokuApp::checkBox(int row, int col){
 void sudokuApp::updateWidgetsVector(){
     widgetVector={};
     cellVector={};
-    delWidget();
     if(gamestate==MENU){
         playBtn = new btnBox(this,200,225,300,50,"Play",[this](){gamestate=GAME;loadGameLevel();updateWidgetsVector();});
-        playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){gamestate=GAME; loadRandGameLevel();updateWidgetsVector();});
+        playRandBtn = new btnBox(this,200,320,300,50,"Play Random",[this](){
+            if(gamestate==MENU){
+            gamestate=GAME; loadRandGameLevel();updateWidgetsVector();}
+        });
         exitBtn = new btnBox(this,200,415,300,50,"Exit Game",[this](){appRun=false;});
         levelMenu = new Menu(this,525,225,200,50,{"Easy","Medium","Hard"},3);
     }else if(gamestate==GAME){
@@ -141,10 +144,6 @@ void sudokuApp::updateWidgetsVector(){
         exitBtn = new btnBox(this,25,475,150,50,"Exit Game",[this](){appRun=false;});
     }
 };
-
-void sudokuApp::delWidget(){
-    delete playRandBtn;
-}
 
 void sudokuApp::loadRandGameLevel(){
 
